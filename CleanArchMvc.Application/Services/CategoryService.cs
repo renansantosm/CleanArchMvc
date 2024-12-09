@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchMvc.Application.DTOs;
 using CleanArchMvc.Application.Interfaces;
+using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,33 +18,38 @@ public class CategoryService : ICategoryService
 
     public CategoryService(ICategoryRepository repository, IMapper mapper)
     {
-        _repository = repository;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _mapper = mapper;
     }
 
-    public Task<IEnumerable<CategoryDTO>> GetCategories()
+    public async Task<IEnumerable<CategoryDTO>> GetCategories()
     {
-        throw new NotImplementedException();
+        var categoriesEntity = await _repository.GetCategoriesAsync();
+        return _mapper.Map<IEnumerable<CategoryDTO>>(categoriesEntity);
     }
 
-    public Task<ProductDTO> GetById(int id)
+    public async Task<CategoryDTO> GetById(int id)
     {
-        throw new NotImplementedException();
+        var categoryEntity = await _repository.GetByIdAsync(id);
+        return _mapper.Map<CategoryDTO>(categoryEntity);
     }
 
-    public Task Add(CategoryDTO categoryDto)
+    public async Task Add(CategoryDTO categoryDto)
     {
-        throw new NotImplementedException();
+        var categoryEntity = _mapper.Map<Category>(categoryDto);
+        await _repository.CreateAsync(categoryEntity);
     }
 
-    public Task Update(CategoryDTO categoryDto)
+    public async Task Update(CategoryDTO categoryDto)
     {
-        throw new NotImplementedException();
+        var categoryEntity = _mapper.Map<Category>(categoryDto);
+        await _repository.UpdateAsync(categoryEntity);
     }
 
-    public Task Delete(int id)
+    public async Task Delete(int id)
     {
-        throw new NotImplementedException();
+        var categoryEntity = _repository.GetByIdAsync(id).Result;
+        await _repository.DeleteAsync(categoryEntity);
     }
 
 }
