@@ -1,4 +1,5 @@
-﻿using CleanArchMvc.Application.Interfaces;
+﻿using CleanArchMvc.Application.DTOs;
+using CleanArchMvc.Application.Interfaces;
 using CleanArchMvc.Application.Mappings;
 using CleanArchMvc.Application.Services;
 using CleanArchMvc.Application.Validators;
@@ -35,10 +36,6 @@ public static class DependencyInjection
 
         // AutoMapper
         services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
-
-        // Fluent Validation
-        services.AddValidatorsFromAssemblyContaining<ProductDTOValidator>();
-        services.AddValidatorsFromAssemblyContaining<CategoryDTOValidator>();
 
         // Mediator
         var myhandlers = AppDomain.CurrentDomain.Load("CleanArchMvc.Application");
