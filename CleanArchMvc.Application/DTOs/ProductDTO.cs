@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CleanArchMvc.Application.DTOs;
@@ -35,6 +36,7 @@ public class ProductDTO
     [MaxLength(250, ErrorMessage = "Image can't be longer than 250 characters")]
     public string? Image { get; set; }
 
+    [JsonIgnore]
     public Category? Category { get; set; }
     public int CategoryId {  get; set; }
 }

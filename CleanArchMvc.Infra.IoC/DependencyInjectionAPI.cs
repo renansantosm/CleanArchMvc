@@ -19,9 +19,9 @@ using System.Threading.Tasks;
 
 namespace CleanArchMvc.Infra.IoC;
 
-public static class DependencyInjection
+public static class DependencyInjectionAPI
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureAPI(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
@@ -32,10 +32,6 @@ public static class DependencyInjection
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-        // Cookie do aplicativo
-        services.ConfigureApplicationCookie(options =>
-                     options.AccessDeniedPath = "/Account/Login");
-
         // Repository
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
@@ -43,10 +39,9 @@ public static class DependencyInjection
         // Service
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IProductService, ProductService>();
-        
+
         // Identity Service
         services.AddScoped<IAuthenticate, AuthenticateService>();
-        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
         // AutoMapper
         services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
